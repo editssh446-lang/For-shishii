@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#f8f5f2;
+height:100vh;
+overflow:hidden;
+}
+
+/* LOGIN */
+
+#loginPage{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.login-box{
+background:white;
+padding:35px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.12);
+width:320px;
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+margin-bottom:15px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+background:#e8cfc5;
+}
+
+.error{
+color:red;
+margin-top:10px;
+display:none;
+}
+
+/* GALLERY */
+
+#galleryPage{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:#f8f5f2;
+}
+
+.image-container{
+width:90%;
+max-width:450px;
+height:80vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.image-container img{
+width:100%;
+height:100%;
+object-fit:contain;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.15);
+}
+
+.controls{
+margin-top:15px;
+display:flex;
+gap:15px;
+}
+
+.controls button{
+width:60px;
+height:50px;
+font-size:22px;
+}
+
+.counter{
+margin-top:10px;
+font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+<div class="login-box">
+<h2>Enter Password</h2>
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="checkPassword()">
+Open
+</button>
+
+<div class="error" id="error">
+Wrong Password
+</div>
+
+</div>
+</div>
+
+<div id="galleryPage">
+
+<div class="image-container">
+<img id="galleryImage" src="1.jpg">
+</div>
+
+<div class="controls">
+<button onclick="prevImage()">←</button>
+<button onclick="nextImage()">→</button>
+</div>
+
+<div class="counter" id="counter">
+1 / 15
+</div>
+
+</div>
+
+<script>
+
+const PASSWORD = "262002";
+
+function checkPassword(){
+const pass =
+document.getElementById("password").value;
+
+if(pass === PASSWORD){
+document.getElementById("loginPage").style.display="none";
+document.getElementById("galleryPage").style.display="flex";
+}else{
+document.getElementById("error").style.display="block";
+}
+}
+
+const images = [
+"1.jpg",
+"2.jpg",
+"3.jpg",
+"4.jpg",
+"5.jpg",
+"6.jpg",
+"7.jpg",
+"8.jpg",
+"9.jpg",
+"10.jpg",
+"11.jpg",
+"12.jpg",
+"13.jpg",
+"14.jpg",
+"15.jpg"
+];
+
+let current = 0;
+
+function updateImage(){
+document.getElementById("galleryImage").src =
+images[current];
+
+document.getElementById("counter").innerText =
+(current+1)+" / "+images.length;
+}
+
+function nextImage(){
+if(current < images.length-1){
+current++;
+updateImage();
+}
+}
+
+function prevImage(){
+if(current > 0){
+current--;
+updateImage();
+}
+}
+
+</script>
+
+</body>
+  </html>
