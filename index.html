@@ -20,7 +20,6 @@ overflow:hidden;
 }
 
 /* LOGIN */
-
 #loginPage{
 height:100vh;
 display:flex;
@@ -66,7 +65,15 @@ margin-top:10px;
 display:none;
 }
 
-/* GALLERY */
+/* VOICE + GALLERY */
+#voicePage, #finalVoicePage{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+}
 
 #galleryPage{
 display:none;
@@ -74,7 +81,6 @@ height:100vh;
 justify-content:center;
 align-items:center;
 flex-direction:column;
-background:#f8f5f2;
 }
 
 .image-container{
@@ -112,28 +118,30 @@ font-size:18px;
 }
 </style>
 </head>
+
 <body>
 
+<!-- LOGIN -->
 <div id="loginPage">
 <div class="login-box">
 <h2>Enter Password</h2>
 
-<input
-type="password"
-id="password"
-placeholder="Password">
+<input type="password" id="password" placeholder="Password">
 
-<button onclick="checkPassword()">
-Open
-</button>
+<button onclick="checkPassword()">Open</button>
 
-<div class="error" id="error">
-Wrong Password
-</div>
+<div class="error" id="error">Wrong Password</div>
 
 </div>
 </div>
 
+<!-- VOICE 1 -->
+<div id="voicePage">
+<h2>🎵 اضغطي لتشغيل الرسالة</h2>
+<button onclick="playVoice1()">تشغيل</button>
+</div>
+
+<!-- GALLERY -->
 <div id="galleryPage">
 
 <div class="image-container">
@@ -145,60 +153,61 @@ Wrong Password
 <button onclick="nextImage()">→</button>
 </div>
 
-<div class="counter" id="counter">
-1 / 15
-</div>
+<div class="counter" id="counter">1 / 15</div>
 
 </div>
+
+<!-- FINAL VOICE -->
+<div id="finalVoicePage">
+<h2>💖 النهاية</h2>
+<button onclick="playVoice2()">تشغيل الرسالة الثانية</button>
+</div>
+
+<!-- AUDIO -->
+<audio id="voice1" src="voice1.mp3"></audio>
+<audio id="voice2" src="voice2.mp3"></audio>
 
 <script>
 
 const PASSWORD = "262002";
 
 function checkPassword(){
-const pass =
-document.getElementById("password").value;
+const pass = document.getElementById("password").value;
 
 if(pass === PASSWORD){
 document.getElementById("loginPage").style.display="none";
-document.getElementById("galleryPage").style.display="flex";
+document.getElementById("voicePage").style.display="flex";
 }else{
 document.getElementById("error").style.display="block";
 }
 }
 
+function playVoice1(){
+document.getElementById("voice1").play();
+document.getElementById("voicePage").style.display="none";
+document.getElementById("galleryPage").style.display="flex";
+}
+
 const images = [
-"1.jpg",
-"2.jpg",
-"3.jpg",
-"4.jpg",
-"5.jpg",
-"6.jpg",
-"7.jpg",
-"8.jpg",
-"9.jpg",
-"10.jpg",
-"11.jpg",
-"12.jpg",
-"13.jpg",
-"14.jpg",
-"15.jpg"
+"1.jpg","2.jpg","3.jpg","4.jpg","5.jpg",
+"6.jpg","7.jpg","8.jpg","9.jpg","10.jpg",
+"11.jpg","12.jpg","13.jpg","14.jpg","15.jpg"
 ];
 
 let current = 0;
 
 function updateImage(){
-document.getElementById("galleryImage").src =
-images[current];
-
-document.getElementById("counter").innerText =
-(current+1)+" / "+images.length;
+document.getElementById("galleryImage").src = images[current];
+document.getElementById("counter").innerText = (current+1)+" / "+images.length;
 }
 
 function nextImage(){
 if(current < images.length-1){
 current++;
 updateImage();
+}else{
+document.getElementById("galleryPage").style.display="none";
+document.getElementById("finalVoicePage").style.display="flex";
 }
 }
 
@@ -209,7 +218,12 @@ updateImage();
 }
 }
 
+function playVoice2(){
+document.getElementById("voice1").pause();
+document.getElementById("voice2").play();
+}
+
 </script>
 
 </body>
-  </html>
+</html>
