@@ -16,17 +16,11 @@ box-sizing:border-box;
 font-family:Arial, sans-serif;
 }
 
-body{
-background:#f8f5f2;
-height:100vh;
-overflow:hidden;
-}
-
-/* FADE ANIMATION */
+/* PAGE TRANSITION FIX */
 .page{
 opacity:0;
-transition:opacity 0.6s ease;
 display:none;
+transition:opacity 0.5s ease;
 }
 
 .page.active{
@@ -107,23 +101,9 @@ height:100%;
 object-fit:contain;
 border-radius:20px;
 box-shadow:0 8px 25px rgba(0,0,0,.15);
-}
 
-.controls{
-margin-top:15px;
-display:flex;
-gap:15px;
-}
-
-.controls button{
-width:60px;
-height:50px;
-font-size:22px;
-}
-
-.counter{
-margin-top:10px;
-font-size:18px;
+opacity:1;
+transition:opacity 0.4s ease;
 }
 
 /* FINAL */
@@ -171,7 +151,6 @@ background:#e8cfc5;
 <!-- VOICE -->
 <div id="voicePage" class="page">
 <h2>Tap to play</h2>
-
 <button class="voice-btn" onclick="playVoice1()">▶</button>
 </div>
 
@@ -195,7 +174,7 @@ background:#e8cfc5;
 <div id="finalVoicePage" class="page">
 
 <div class="final-message">
-كل سنه وانتي طيبه يا حبيبتي ربنا يخليكي لينا يارب حاولنا نحضر حاجه تبسطك وتفرحك واتمنى انك تكوني فرحتي بحبك اوي...!
+كل سنه وانتي طيبه يا حبيبتي ربنا يخليكي لينا يارب حاولنا نحضر حاجه تبسطك وتفرحك واتمنى انك تكوني فرحتي بنحبك اوي...!
 </div>
 
 <div class="final-buttons">
@@ -212,6 +191,7 @@ background:#e8cfc5;
 
 const PASSWORD = "262002";
 
+/* PAGE CONTROL */
 function showPage(id){
 document.querySelectorAll('.page').forEach(p=>{
 p.classList.remove('active');
@@ -239,16 +219,18 @@ document.getElementById("error").innerText="Wrong Password";
 
 /* VOICE */
 function playVoice1(){
-document.getElementById("voice1").play();
+const audio = document.getElementById("voice1");
+audio.currentTime = 0;
+audio.play();
 }
 
-/* NEXT AFTER CLICK BUTTON (NOT AUTO) */
+/* BUTTON FLOW */
 document.querySelector(".voice-btn").addEventListener("click", function(){
 showPage("galleryPage");
 playVoice1();
 });
 
-/* IMAGES */
+/* IMAGES FADE FIX */
 const images = [
 "1.jpg","2.jpg","3.jpg","4.jpg","5.jpg",
 "6.jpg","7.jpg","8.jpg","9.jpg"
@@ -257,8 +239,17 @@ const images = [
 let current = 0;
 
 function updateImage(){
-document.getElementById("galleryImage").src = images[current];
-document.getElementById("counter").innerText = (current+1)+" / "+images.length;
+const img = document.getElementById("galleryImage");
+
+img.style.opacity = 0;
+
+setTimeout(()=>{
+img.src = images[current];
+img.style.opacity = 1;
+},200);
+
+document.getElementById("counter").innerText =
+(current+1)+" / "+images.length;
 }
 
 function nextImage(){
